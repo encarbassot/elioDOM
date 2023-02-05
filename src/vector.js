@@ -1,8 +1,5 @@
 export const moduleName ="Vector.js"
 
-//TODO
-// class Box
-// class Range
 export class Vector{
     constructor(x=0,y=0){
         //TODO ensure vector
