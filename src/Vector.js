@@ -1,5 +1,5 @@
 export const moduleName ="Vector.js"
-import {randomBetween} from "../elioUtils.js"
+import {random} from "../elioUtils.js"
 
 export class Vector{
     constructor(x=0,y=0){
@@ -29,8 +29,6 @@ export class Vector{
             floor = Array.from(arguments).filter(x=>typeof(x)=="boolean")[0] || false
         }
 
-        console.log(values,floor)
-
         let min = 0
         let max = 1
         if(values.length==1){
@@ -41,8 +39,8 @@ export class Vector{
         }
 
         return new Vector(
-            randomBetween(min,max),
-            randomBetween(min,max)
+            random(min,max),
+            random(min,max)
         )
     }
 
@@ -106,9 +104,15 @@ export class Vector{
         return new Vector(this.x-v.x,this.y-v.y)
     }
 
-    mult(){
+    mult(){// by scalar or dot product
         const v = this.ensureVector(arguments)
         return new Vector(this.x*v.x,this.y*v.y)
+    }
+
+
+    crossProduct() {
+        const v = this.ensureVector(arguments)
+        return this.x * v.y - this.y * v.x;
     }
 
     divide(){
@@ -131,20 +135,36 @@ export class Vector{
         )
     }
 
+
+
+    
+////////////// POLAR MATH ////////////
+
+    /*
+        c   b
+     d  |  /
+      \ | /
+       \|/
+     e--V---a
+       /|\
+      f g h
+
+        a -> V( 1, 0).angle() => 0         0º
+        b -> V( 1, 1).angle() => PI*1/4    45º
+        c -> V( 0, 1).angle() => PI*1/2    90º
+        d -> V(-1, 1).angle() => PI*3/4    135º
+        e -> V(-1, 0).angle() => PI        180º
+        f -> V(-1,-1).angle() => -PI*3/4   -135º
+        g -> V( 0,-1).angle() => -PI*1/2   -90º
+        h -> V( 1,-1).angle() => -PI*1/4   -45º
+    */
     angle(){
-        return -Math.atan2(this.y,this.x)
+        return Math.atan2(this.y,this.x)
     }
 
-
-
-
-    
-    
-
-    ////////////// POLAR MATH ////////////
     toPolar(){
         let r = this.module()
-        let theta = -this.angle()
+        let theta = this.angle()
         return [r, theta];
     }
     

@@ -1,5 +1,9 @@
 # elioVector
 
+# TODO
+ - 3D vectors
+
+
 ### usage
 index.html
 ```<script src="myScript.js type="module></script>```
@@ -129,7 +133,12 @@ function map is meant to be used in more sofisticated cases
 
 ### add() substract() mult() and divide()
 this functions accepts [multiple imput types](#multiple-input-types)
+NOTE: as they accept multiple parameters, mult() can be used for **scalar multiplication** and **dot product** depending in the value suplied
 **RETURN:** *new Vector*
+
+### crossProduct()
+this functions accepts [multiple imput types](#multiple-input-types)
+**RETURN:** *integer*
 
 ### addAll()
 this function returns vector.x + vector.y

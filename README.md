@@ -16,6 +16,7 @@ making my own librarie
     * (help functions have multiple inputs)
     * like min(1,2,3) min([1,2,3])
 - class Range ??
+- class Angle ??
 
 ## Usage
 index.html

@@ -1,92 +1,110 @@
-import {Vector} from "./src/vector.js"
-export {Vector}
+import {Vector} from "./src/Vector.js"
+// import {Canvas} from "./src/Canvas.js"
+import {getNine,getNineSum,zip,create2Darray,enlargeGrid,rotate90} from "./src/array.js"
+import {randomColor,randomColorHSL,hsl,invertColor,contrastColor} from "./src/color.js"
+import {isTouchDevice,copyToClipboard,getUrlParams,goToURL,convertNBSP,isHTML,makeDOM,getElemByStr,highlight,scrollToCenter} from "./src/dom.js"
+import {readFile,fileDownload,makeFileInput,fileUploadHandler} from "./src/file.js"
 
-console.log("hello from elio utils")
+
+export {Vector,Vector as V}
+export {getNine,getNineSum,zip,create2Darray,enlargeGrid,rotate90}
+export {randomColor,randomColorHSL,hsl,invertColor,contrastColor}
+export {isTouchDevice,copyToClipboard,getUrlParams,goToURL,convertNBSP,isHTML,makeDOM,getElemByStr,highlight,scrollToCenter}
+export {readFile,fileDownload,makeFileInput,fileUploadHandler}
+
+
+
+console.log(
+    '%celioUtils.js %chttps://github.com/encarbassot/elioUtils.js/',
+    'font-size: 15px; font-weight: bold; color: blue; background-color: yellow; padding: 10px;',
+    'color: blue;text-decoration:underline;padding:10px;background:rgba(255,255,255,1)',
+);
 
 export const test = "HOLA from elioUtils.js"
 
 
 
+
+/////////////////// MATH AND NUMBERS /////////////
+//Great comon divider
+//ES: Maximo Comun Divisor MCD
+export function gcd(a, b){
+    return (b == 0)
+        ? a
+        : gcd(b, a % b)
+}
+
+// Returns LCM of array elements Least Comon Multiple
+// ES: Minimo comun multiplo MCD
+export function lcm(arr) {
+    // Initialize the LCM with the first element in the array
+    let ans = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        // Update the LCM by computing the product of the current element and the LCM,
+        // and then dividing by the GCD of the current element and the LCM
+        ans = (arr[i] * ans) / gcd(arr[i], ans);
+    }
+    return ans;
+}
+
 export function simb(n){
     return n>0?1:-1
 }
+
+export function changeBase(num,fromBase,toBase){
+    let decimal = parseInt(num,fromBase)
+    return decimal.toString(toBase).toUpperCase()
+}
+
 export function round(num,precission){
     const factor = 10**precission
     return Math.round(num*factor)/factor
 }
 
-export function randomBetween(min, max,floor = false){
-    let a = Math.min(min,max)
-    let b = Math.max(min,max)
-    if(floor){
-        return Math.floor(Math.random() * (b - a) + a)
+/**
+ * Generates a random number between two values (inclusive).
+ * 
+ * random()      -> returns random float between 0 and 1
+ * random(7)     -> returns random float between 0 and 7
+ * random(7,true)-> returns random int between 0 and 6
+ * random(2,8)   -> returns random floor between 2 and 8
+ * random(2,8,true) -> returns random int between 2 and 7
+ * 
+ * @param {Number} [min=0] - The lower limit of the range.
+ * @param {Number} [max=1] - The upper limit of the range.
+ * @param {Boolean} [floor=false] - If true, returns an integer.
+ * @returns {Number} A random number between min and max (inclusive). If floor is set to true, returns an integer.
+ */
+export function random() {
+    let values = Array.from(arguments).filter(x => typeof x === "number");
+    let floor = false;
+    if (values.length > 0) {
+      floor = typeof arguments[arguments.length - 1] === "boolean" ? arguments[arguments.length - 1] : false;
     }
-    return Math.random() * (b - a) + a;
-}
-
-
-export function polarToCartesian(r, theta){
-    let x = r * Math.cos(theta);
-    let y = r * Math.sin(theta);
-    return [x, y];
-}
-//export function cartesianToPolar:(x, y){
-//     let r = Math.sqrt(x * x + y * y);
-//     let theta = Math.atan2(y, x);
-//     return [r, theta];
-// }
-export function cartesianToPolar(x1,y1,x2=undefined,y2=undefined){
-    let dx,dy
-    if(x2==undefined && y2==undefined){
-        dx=x1
-        dy=y1
-    }else{
-        dx = x2-x1
-        dy = y2-y1
+  
+    let min = 0;
+    let max = 1;
+    if (values.length === 1) {
+      max = values[0];
+    } else if (values.length >= 2) {
+      min = values[0];
+      max = values[1];
     }
-    let r = Math.sqrt(dx * dx + dy * dy);
-    let theta = Math.atan2(dy, dx);
-    return [r, theta];
+  
+    let result = Math.random() * (max - min) + min;
+    return floor ? Math.floor(result) : result;
 }
 
-//Angle between two points
-/*
-a   c
-|  /
-| /
-|/
-b---d
-angle(b,d) => 0
-angle(b,c) => PI/4
-angle(b,a) => PI/2
-*/
-export function angle(x1, y1, x2, y2){
-    return Math.atan2(y2 - y1, x2 - x1);
+export function intLength(num){
+    return (num==0)
+        ? 1
+        : Math.floor(Math.log10(num))+1 
 }
 
-export function radToDegree(rad){
-    return rad*180/Math.PI
+export function minMax(a,b){
+    //const [min,max] = minMax(x,y)
+    return (a>b) ? [b,a] : [a,b]
 }
-export function degreeToRad(deg){
-    return deg/Math.PI*180
-}
-
-//Euclidean distance between two points
-export function distance(x1, y1, x2, y2){
-    let dx = x2 - x1;
-    let dy = y2 - y1;
-    return Math.sqrt(dx * dx + dy * dy);
-}
-    
-
-export function clamp(value, min, max){
-    return Math.min(Math.max(value, min), max);
-}
-//Maps a value from one range to another
-export function map(value, inMin, inMax, outMin, outMax){
-    return lerp(outMin, outMax, inverseLerp(inMin, inMax, value));
-}
-
 
 //Normalizes a value to be between 0 and 1.
 export function normalize(value, min, max){
@@ -115,6 +133,17 @@ export function lerpAngle(a, b, t){
     return a + d * t;
 }
 
+//Maps a value from one range to another
+export function map(value, inMin, inMax, outMin, outMax){
+    return lerp(outMin, outMax, inverseLerp(inMin, inMax, value));
+}
+
+export function clamp(value, min, max){
+    return Math.min(Math.max(value, min), max);
+}
+
+//given two ranges returns the amount that overlaps
+// 0..7  5..9 -> 5..7 -> 2
 export function overlappingLength(start1, end1, start2, end2){
     if (end1 < start2 || end2 < start1){
         return 0;
@@ -123,3 +152,51 @@ export function overlappingLength(start1, end1, start2, end2){
     }
 }
 
+
+//bit operators
+export function getBit(number, bitPosition) {
+    return (number & (1 << bitPosition)) === 0 ? 0 : 1;
+}
+export function setBit(number, bitPosition) {
+    return number | (1 << bitPosition);
+}
+export function clearBit(number, bitPosition) {
+    const mask = ~(1 << bitPosition);
+    return number & mask;
+}
+export function updateBit(number, bitPosition, bitValue) {
+    const bitValueNormalized = bitValue ? 1 : 0;
+    const clearMask = ~(1 << bitPosition);
+    return (number & clearMask) | (bitValueNormalized << bitPosition);
+}
+
+
+//////////////////// COLORS /////////////////
+
+
+
+
+
+
+
+
+
+/////////////// STRINGS ////////////////////
+/*
+* Split string on chunks of n characters
+* example:
+*   chunkString('abcdefghi',4,true) =>['abcd', 'efgh', 'i']
+*   chunkString('abcdefghi',2) => ['ab', 'cd', 'ef', 'gh']
+*/
+export function chunkString(string,chunkLength=2,remainder=false){
+    let result =[]
+    let a=0,b=chunkLength
+    while (a<string.length) {
+        if(b<=string.length || remainder){
+            result.push(string.substring(a,b));
+        }
+        a+=chunkLength
+        b+=chunkLength
+    }
+    return result;
+} 
