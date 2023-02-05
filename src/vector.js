@@ -1,4 +1,5 @@
 export const moduleName ="Vector.js"
+import {randomBetween} from "../elioUtils.js"
 
 export class Vector{
     constructor(x=0,y=0){
@@ -22,9 +23,26 @@ export class Vector{
     ///////////////// MODIFICATION /////////////
 
     random(){
+        let values = Array.from(arguments).filter(x=>typeof(x)=="number")
+        let floor = false
+        if(values.length>0){
+            floor = Array.from(arguments).filter(x=>typeof(x)=="boolean")[0] || false
+        }
+
+        console.log(values,floor)
+
+        let min = 0
+        let max = 1
+        if(values.length==1){
+            max = values[0]
+        }else if(values.length==2){
+            min = values[0]
+            max = values[1]
+        }
+
         return new Vector(
-            Math.random(),
-            Math.random()
+            randomBetween(min,max),
+            randomBetween(min,max)
         )
     }
 
@@ -32,28 +50,38 @@ export class Vector{
         //this.x = Math.max(n,this.x)
         //stores the highest value
         const maximum = this.ensureVector(arguments)
+        const result = new Vector(this.x,this.y)
         if(this.x<maximum.x){
-            this.x=maximum.x
+            result.x=maximum.x
         }
         if(this.y<maximum.y){
-            this.y=maximum.y
+            result.y=maximum.y
         }
+        return result
     }
 
     min(){
         //this.x = Math.min(n,this.x)
         //stores the lowest value
         const minimum = this.ensureVector(arguments)
+        const result = new Vector(this.x,this.y)
         if(this.x>minimum.x){
-            this.x=minimum.x
+            result.x=minimum.x
         }
         if(this.y>minimum.y){
-            this.y=minimum.y
+            result.y=minimum.y
         }
+        return result
     }
 
     update(x,y){
         this.x=x
+        this.y=y
+    }
+    updateX(x){
+        this.x=x
+    }
+    uptadeY(y){
         this.y=y
     }
 
@@ -61,8 +89,8 @@ export class Vector{
     //////RETURN NEW
     map(callback){
         return new Vector(
-            callback(this.x,0),
-            callback(this.y,1)
+            callback(this.x,0,this),
+            callback(this.y,1,this)
         )
     }
 
@@ -96,17 +124,18 @@ export class Vector{
         return Math.sqrt(this.x**2 + this.y**2)
     }
 
-    angle(){
-        return -Math.atan2(this.y,this.x)
-    }
-
-
     abs(){
         return new Vector(
             Math.abs(this.x),
             Math.abs(this.y)
         )
     }
+
+    angle(){
+        return -Math.atan2(this.y,this.x)
+    }
+
+
 
 
     

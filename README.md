@@ -12,13 +12,16 @@ making my own librarie
 - class Canvas like [p5.js](p5js.org) 
     * but without 34.387 gloval methods and libraries and anoying console messages
 - class Box
+- class ParametricArguments 
+    * (help functions have multiple inputs)
+    * like min(1,2,3) min([1,2,3])
 - class Range ??
 
 ## Usage
 index.html
 ```html
 
-    <script src="yourScript.js" type="module">
+    <script src="yourScript.js" type="module"></script>
 
 
 ```

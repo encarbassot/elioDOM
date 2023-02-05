@@ -1,7 +1,7 @@
-import {Vector as V} from "./src/vector.js"
-export {V}
+import {Vector} from "./src/vector.js"
+export {Vector}
 
-console.log("hello from elio utils 3")
+console.log("hello from elio utils")
 
 export const test = "HOLA from elioUtils.js"
 
@@ -15,9 +15,12 @@ export function round(num,precission){
     return Math.round(num*factor)/factor
 }
 
-export function randomBetween(min, max){
+export function randomBetween(min, max,floor = false){
     let a = Math.min(min,max)
     let b = Math.max(min,max)
+    if(floor){
+        return Math.floor(Math.random() * (b - a) + a)
+    }
     return Math.random() * (b - a) + a;
 }
 
