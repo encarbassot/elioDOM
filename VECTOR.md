@@ -180,7 +180,7 @@ All of this is processed by the method **ensureVector()**
 examples:
 
 | input | vectorOutput  |
-------------------------
+--------|----------------
 | ()    | V(1,1) |
 | (undefined)    | V(1,1) |
 | (2)   | V(2,2) |
