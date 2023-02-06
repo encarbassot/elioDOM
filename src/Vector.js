@@ -1,5 +1,6 @@
 export const moduleName ="Vector.js"
-import {random} from "../elioUtils.js"
+import {math} from "../elioUtils.js"
+const {random } = math
 
 export class Vector{
     constructor(x=0,y=0){
