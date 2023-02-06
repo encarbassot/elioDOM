@@ -19,7 +19,11 @@ export function hsl(hue,saturation=100,lightness=50){
     return `hsl(${hue%255}, ${bound(0,100,saturation)}%, ${bound(0,100,lightness)}%)`
 }
 
-
+// input: h in [0,360] and s,v in [0,1] - output: r,g,b in [0,1]
+export function hsv2hex(h,s,v){                              
+    let f= (n,k=(n+h/60)%6) => Math.round((v - v*s*Math.max( Math.min(k,4-k,1), 0))*255).toString(16).toUpperCase();
+    return '#'+f(5)+f(3)+f(1)
+}   
 
 //INVERT COLOR '#56789A'->'#a98765'
 export function invertColor(hex){

@@ -132,6 +132,15 @@ This function handles the event of multiple files being uploaded. It takes an ev
 **isTouchDevice()**
 Returns a Boolean indicating whether the device is touch enabled or not.
 
+**urlify()**
+gets a text as a parameter, and if it founds an URL converts it to an anchor
+```js
+  urlify("i like https://fabrega.cat/ is a cool website")
+  //returns: "i like <a href="https://fabrega.cat/">https://fabrega.cat/</a> is a cool website"
+```
+
+**getURL()**
+returns a string with complete URL of the site and current page
 
 **copyToClipboard(text)**
 Copies the given text to clipboard.
@@ -183,6 +192,11 @@ Adds a highlight animation to the given DOM element.
 **scrollToCenter(element)**
 Scrolls the given element to the center of the screen instead of the top
 
+**getInputSelection**
+get cursor position in textarea
+
+**getIpData**
+returns IP information from https://ipapi.co/json
 
 
 # Array Utilities
@@ -292,6 +306,9 @@ Converts a color to HSL format, saturation and lightness values must be between 
 hsl(255,100,50) // 'hsl(255,100,50)'
 ```
 
+**hsv2hex()**
+converts hsv value to hex `#fffff`
+
 
 **invertColor(hex)**
 
@@ -325,3 +342,28 @@ chunkString('abcdefghi',4,true)
 chunkString('abcdefghi',2)
 //returns: ['ab', 'cd', 'ef', 'gh']
 ```
+
+**levenshteinDistance()**
+Takes two strings as a parameter and return the distance betwen words, 
+ - addition costs 1
+ - subtraction costs 1
+ - change costs 1
+```js
+levenshteinDistance("hello","mellow")
+//Returns 2
+
+levenshteinDistance("hello","bye")
+//returns 5
+```
+
+**bytesToHuman()**
+get a number of bytes as a parameter and return it humanReadable with scale
+B,KB,MB,GB,TB
+
+**beginsWith()**
+gets two strings as parameter
+returns true if the second string is found exactly in the begining of the first string
+
+
+**genCode()**
+generates a random code of length n specified by parameter

@@ -250,3 +250,73 @@ export class Vector{
 
     isVector(){return true}
 }
+
+
+//returns the intersection between two lines
+// line 1 described as A-B or (a,b)-(c,d)
+// line 2 described as C-D or (e,f)-(g,h)
+function getIntersection(a,b,c,d,e,f,g,h){
+    //https://www.youtube.com/watch?v=fHOLQJo0FjQ&t=871s
+    
+        let A ,B ,C ,D
+    
+        if(arguments.length==8){
+            A={x:a,y:b}
+            B={x:c,y:d}
+            C={x:e,y:f}
+            D={x:g,y:h}
+        }else if(arguments.length==4){
+            A=a
+            B=b
+            C=c
+            D=d
+        }else{
+            console.error('bad input on getIntersection()')
+        }
+    
+    
+    
+    
+    /*
+    
+    Ix = Ax+(Bx-Ax)t = Cx+(Dx-Cx)u
+    Iy = Ay+(By-Ay)t = Cy+(Dy-Cy)u
+    
+    Ax+(Bx-Ax)t = Cx+(Dx-Cx)u  |-Cx
+    Ax-Cx+(Bx-Ax)t = (Dx-Cx)u
+    
+    Ay+(By-Ay)t = Cy+(Dy-Cy)u |-Cy
+    Ay-Cy+(By-Ay)t = (Dy-Cy)u |*(Dx-Cx)
+    (Dx-Cx)(Ay-Cy)+(Dx-Cx)(By-Ay)t = (Dy-Cy)(Dx-Cx)u
+    (Dx-Cx)(Ay-Cy)+(Dx-Cx)(By-Ay)t = (Dy-Cy)(Ax-Cx)+(Dy-Cy)(Bx-Ax)t     |-(Dy-Cy)(Ax-Cx)
+                                                                        |-(Dx-Cx)(By-Ay)t
+    (Dx-Cx)(Ay-Cy)-(DY-cy)(Ax-Cx) =(Dy-Cy)(Bx-Ax)t-(Dx-Cx)(By-Ay)t
+    (Dx-Cx)(Ay-Cy)-(DY-cy)(Ax-Cx) =t((Dy-Cy)(Bx-Ax)-(Dx-Cx)(By-Ay))
+    t = (Dx-Cx)(Ay-Cy)-(DY-cy)(Ax-Cx) / ((Dy-Cy)(Bx-Ax)-(Dx-Cx)(By-Ay))
+    */
+        const v={}
+        v.numeradorT = (D.x-C.x)*(A.y-C.y)-(D.y-C.y)*(A.x-C.x)
+        v.numeradorU = (C.y-A.y)*(A.x-B.x)-(C.x-A.x)*(A.y-B.y)
+        v.denominador = (D.y-C.y)*(B.x-A.x)-(D.x-C.x)*(B.y-A.y)
+    
+        v.isParalel = v.denominador==0
+        v.intersection={}
+        if(!v.isParalel){
+            v.t = v.numeradorT/v.denominador
+            v.intersection.x=lerp(A.x,B.x,v.t)
+            v.intersection.y=lerp(A.y,B.y,v.t)
+            v.intersection.insideFirstSegment = v.t>=0 && v.t<=1
+    
+            v.u = v.numeradorU/v.denominador
+            v.intersection.insideSecondSegment = v.u>=0 && v.u<=1
+    
+            v.intersection.intersects= v.intersection.insideFirstSegment && v.intersection.insideSecondSegment
+        }else{
+            v.intersection.intersects=false
+            v.intersection.insideFirstSegment = false
+            v.intersection.insideSecondSegment = false
+            
+        }
+    
+        return v
+    }
