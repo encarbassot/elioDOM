@@ -1,4 +1,4 @@
-class Canvas{
+elioUtils.Canvas = class{
     constructor(){
         this.runningSetup=false
         this.runningDraw=false

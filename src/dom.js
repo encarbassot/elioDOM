@@ -1,12 +1,12 @@
 
-function isTouchDevice() {
+elioUtils.isTouchDevice = function() {
     return (('ontouchstart' in window) ||
        (navigator.maxTouchPoints > 0) ||
        (navigator.msMaxTouchPoints > 0));
 }
 
 
-function urlify(text) {
+elioUtils.urlify = function(text) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
   return text.replace(urlRegex, function(url) {
     return '<a href="' + url + '">' + url + '</a>';
@@ -17,7 +17,7 @@ function urlify(text) {
 
 
 //COPY TEXT TO CLIPBOARD
-function copyToClipboard(text){
+elioUtils.copyToClipboard = function(text){
   //https://stackoverflow.com/a/33928558/11168839
   if(navigator.clipboard.writeText)//focus must be on document
     return navigator.clipboard.writeText(text);
@@ -45,13 +45,13 @@ function copyToClipboard(text){
   }
 }
 
-function getURL(){
+elioUtils.getURL = function(){
   return window.location.protocol + "//" + window.location.host + window.location.pathname
 }
   
 
 //getUrlParams()        //--> retrun a object with all params in url
-function getUrlParams (url) {
+elioUtils.getUrlParams = function (url) {
     // http://stackoverflow.com/a/23946023/2407309
     if (typeof url == 'undefined') {
         url = window.location.search
@@ -69,7 +69,7 @@ function getUrlParams (url) {
 }
 
 
-function goToURL(url){
+elioUtils.goToURL = function(url){
     let a = document.createElement('A')
     a.style.display="none"
     a.href=url
@@ -79,7 +79,7 @@ function goToURL(url){
 
 //convert   <nbsp>5</nbsp>      into    <nbsp>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</nbsp>
 //for an easy alignament of the elements
-function convertNBSP(){
+elioUtils.convertNBSP = function(){
     let nbsp = document.getElementsByTagName('nbsp')
     for (var i = 0; i < nbsp.length; i++) {
       //read and replace all the nbsp
@@ -88,7 +88,7 @@ function convertNBSP(){
 }
 
 
-function isHTML(value, view) {
+elioUtils.isHTML = function(value, view) {
     //https://stackoverflow.com/a/68279789/11168839
     if (value instanceof HTMLElement) return true
     if (view && value instanceof view.HTMLElement) return true
@@ -102,7 +102,7 @@ function isHTML(value, view) {
 }
 
 /* arr -> array of strings // each string specify the querrySelector*/
-function makeDOM(arr){
+elioUtils.makeDOM = function(arr){
     if(typeof(arr)=='string')arr=[arr]
     let result ={}
     for (var elem of arr) {
@@ -111,7 +111,7 @@ function makeDOM(arr){
     return result;
 }
 
-function getElemByStr(elem){
+elioUtils.getElemByStr = function(elem){
     let e = document.getElementById(elem)
     if(e==null){
       e = document.getElementsByClassName(elem)
@@ -139,13 +139,13 @@ function getElemByStr(elem){
   }
 </style>
 */
-function highlight(dom){
+elioUtils.highlight = function(dom){
     console.log(dom);
     dom.classList.add('highlight')//highlight for 5 seconds
     setTimeout(function(){dom.classList.remove('highlight')},5000)
 }
 
-function scrollToCenter(dom){
+elioUtils.scrollToCenter = function(dom){
     let actualScroll=window.scrollY
     let pageHeight = window.innerHeight/2
     let distance = dom.offsetTop
@@ -156,7 +156,7 @@ function scrollToCenter(dom){
 }
 
 // get cursor position in textarea
-function getInputSelection(el) {
+elioUtils.getInputSelection = function(el) {
   var start = 0, end = 0, normalizedValue, range, textInputRange, len, endRange;
 
   if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
@@ -202,7 +202,7 @@ function getInputSelection(el) {
 }
 
 //GET IP, location and more
-async function getIpData() {
+elioUtils.getIpData = async function () {
   
   let myObject = await fetch("https://ipapi.co/json");
   let myText = await myObject.text();

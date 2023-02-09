@@ -1,11 +1,11 @@
-async function readFile(filename){
+elioUtils.readFile = async function(filename){
     const response = await fetch(filename)
     const text = await response.text()
     return text
 }
 
 //download a file with a text value
-function fileDownload(filename, text) {
+elioUtils.fileDownload = function (filename, text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
@@ -30,7 +30,7 @@ function fileDownload(filename, text) {
               console.log(files)
             })
 */
-function makeFileInput(dom,callback,dragable=true){
+elioUtils.makeFileInput = function (dom,callback,dragable=true){
     if(!isHTML(dom))return
     dom.onchange=(event)=>fileUploadHandler(event,callback)
     dom.ondrop=(event)=>fileUploadHandler(event,callback)
@@ -50,7 +50,7 @@ function makeFileInput(dom,callback,dragable=true){
     JS:     document.getElementById('files').onchange=(event)=>multipleFileUploadedHandler(event,file_handler_function)
     callback-> function that recive 1 parameter, an array of strings (each string is one file)
   */
-function fileUploadHandler(evt,callback){
+elioUtils.fileUploadHandler = function (evt,callback){
     console.log(evt);
     if(['drop','change','dragover'].includes(evt.type)){
       evt.stopPropagation();
@@ -74,7 +74,7 @@ function fileUploadHandler(evt,callback){
   
   
   //helpper for <fileUploadHandler()> & <makeFileInput>
- function readFileAsText(file){
+elioUtils.readFileAsText = function(file){
       return new Promise((resolve,reject)=>{
           let fr = new FileReader();
           fr.onload = ()=>{

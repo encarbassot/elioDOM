@@ -1,8 +1,6 @@
-const moduleName ="Vector.js"
-import {math} from "../elioUtils_module.js"
-const {random } = math
+//this file requires elioUtils/math.js 
 
-class Vector{
+elioUtils.Vector = class{
     constructor(x=0,y=0){
         //TODO ensure vector
         this.x = x
@@ -14,7 +12,7 @@ class Vector{
             this.x=other.x
             this.y=other.y
         }else{
-            return new Vector(this.x,this.y)
+            return new elioUtils.Vector(this.x,this.y)
         }
     }
     values(){
@@ -39,7 +37,7 @@ class Vector{
             max = values[1]
         }
 
-        return new Vector(
+        return new elioUtils.Vector(
             random(min,max),
             random(min,max)
         )
@@ -49,7 +47,7 @@ class Vector{
         //this.x = Math.max(n,this.x)
         //stores the highest value
         const maximum = this.ensureVector(arguments)
-        const result = new Vector(this.x,this.y)
+        const result = new elioUtils.Vector(this.x,this.y)
         if(this.x<maximum.x){
             result.x=maximum.x
         }
@@ -63,7 +61,7 @@ class Vector{
         //this.x = Math.min(n,this.x)
         //stores the lowest value
         const minimum = this.ensureVector(arguments)
-        const result = new Vector(this.x,this.y)
+        const result = new elioUtils.Vector(this.x,this.y)
         if(this.x>minimum.x){
             result.x=minimum.x
         }
@@ -87,7 +85,7 @@ class Vector{
 
     //////RETURN NEW
     map(callback){
-        return new Vector(
+        return new elioUtils.Vector(
             callback(this.x,0,this),
             callback(this.y,1,this)
         )
@@ -97,17 +95,17 @@ class Vector{
     ///////////// MATH /////////////////////
     add(){
         const v = this.ensureVector(arguments)
-        return new Vector(this.x+v.x,this.y+v.y)
+        return new elioUtils.Vector(this.x+v.x,this.y+v.y)
     }
 
     substract(){
         const v = this.ensureVector(arguments)
-        return new Vector(this.x-v.x,this.y-v.y)
+        return new elioUtils.Vector(this.x-v.x,this.y-v.y)
     }
 
     mult(){// by scalar or dot product
         const v = this.ensureVector(arguments)
-        return new Vector(this.x*v.x,this.y*v.y)
+        return new elioUtils.Vector(this.x*v.x,this.y*v.y)
     }
 
 
@@ -118,7 +116,7 @@ class Vector{
 
     divide(){
         const v = this.ensureVector(arguments)
-        return new Vector(this.x/v.x,this.y/v.y)
+        return new elioUtils.Vector(this.x/v.x,this.y/v.y)
     }
 
     addAll(){
@@ -130,7 +128,7 @@ class Vector{
     }
 
     abs(){
-        return new Vector(
+        return new elioUtils.Vector(
             Math.abs(this.x),
             Math.abs(this.y)
         )
@@ -177,7 +175,7 @@ class Vector{
     // Rotates coordinate system
     // Takes coordinates and alters them as if the coordinate system they're on was rotated
     rotate(angle){
-        return new Vector(
+        return new elioUtils.Vector(
             this.x * Math.cos(angle) - this.y * Math.sin(angle),
             this.x * Math.sin(angle) + this.y * Math.cos(angle)
         )
@@ -230,22 +228,22 @@ class Vector{
             } else if(typeof(a)=="object"){
                 if(Array.isArray(a)){
                     if(a.length==2){
-                        return new Vector(a[0],a[1])
+                        return new elioUtils.Vector(a[0],a[1])
                     }//ELSE????
                 }else if(a.x!=undefined && !isNaN(a.x) && a.y!=undefined && !isNaN(a.y)){
-                    return new Vector(a.x,a.y)
+                    return new elioUtils.Vector(a.x,a.y)
                 }
 
             }else if(!isNaN(a)){
-                return new Vector(a,a)
+                return new elioUtils.Vector(a,a)
             }
 
         }
         switch(args.length){
             case 0: 
-                return new Vector(1,1)
+                return new elioUtils.Vector(1,1)
             case 2:
-                return new Vector(args[0],args[1])
+                return new elioUtils.Vector(args[0],args[1])
         }
     }
 

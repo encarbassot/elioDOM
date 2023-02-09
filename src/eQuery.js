@@ -1,4 +1,4 @@
-function eQuery(selector){
+elioUtils.eQuery = function (selector){
     if(typeof(selector)=="function"){
         document.addEventListener("DOMContentLoaded",selector)
         return

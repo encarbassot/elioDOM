@@ -1,0 +1,1 @@
+cat src/main.js src/*.js > elioUtils.js

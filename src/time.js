@@ -1,5 +1,5 @@
 
-class Timer{
+elioUtils.Timer = class{
     constructor(){
         this.start()
     }
