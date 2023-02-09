@@ -1,5 +1,5 @@
 //random color in hexadecimal ->  '#6F75DD'
-export function randomColor() {
+function randomColor() {
     return '#'+randInt(16777215).toString(16).toUpperCase() //could use changeBase()
 }
 
@@ -11,22 +11,22 @@ export function randomColor() {
     randomColorHSL(10)    ->  'hsl(55,10,70)'
     randomColorHSL(21,30) ->  'hsl(78,21,30)'
 */
-export function randomColorHSL(sat,light) {
+function randomColorHSL(sat,light) {
     return `hsl(${randInt(255)},${sat??randInt(100)}%,${light??randInt(100)}%)`
 }
 
-export function hsl(hue,saturation=100,lightness=50){
+function hsl(hue,saturation=100,lightness=50){
     return `hsl(${hue%255}, ${bound(0,100,saturation)}%, ${bound(0,100,lightness)}%)`
 }
 
 // input: h in [0,360] and s,v in [0,1] - output: r,g,b in [0,1]
-export function hsv2hex(h,s,v){                              
+function hsv2hex(h,s,v){                              
     let f= (n,k=(n+h/60)%6) => Math.round((v - v*s*Math.max( Math.min(k,4-k,1), 0))*255).toString(16).toUpperCase();
     return '#'+f(5)+f(3)+f(1)
 }   
 
 //INVERT COLOR '#56789A'->'#a98765'
-export function invertColor(hex){
+function invertColor(hex){
     if (hex.indexOf('#') === 0) {
         hex = hex.slice(1);
     }
@@ -35,7 +35,7 @@ export function invertColor(hex){
 
 //if color is darck you get white as response
 //if color is light you get black as response
-export function contrastColor(hex){
+function contrastColor(hex){
     if (hex.indexOf('#') === 0) {
         hex = hex.slice(1);
     }

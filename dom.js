@@ -1,12 +1,12 @@
 
-export function isTouchDevice() {
+function isTouchDevice() {
     return (('ontouchstart' in window) ||
        (navigator.maxTouchPoints > 0) ||
        (navigator.msMaxTouchPoints > 0));
 }
 
 
-export function urlify(text) {
+function urlify(text) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
   return text.replace(urlRegex, function(url) {
     return '<a href="' + url + '">' + url + '</a>';
@@ -17,7 +17,7 @@ export function urlify(text) {
 
 
 //COPY TEXT TO CLIPBOARD
-export function copyToClipboard(text){
+function copyToClipboard(text){
   //https://stackoverflow.com/a/33928558/11168839
   if(navigator.clipboard.writeText)//focus must be on document
     return navigator.clipboard.writeText(text);
@@ -45,13 +45,13 @@ export function copyToClipboard(text){
   }
 }
 
-export function getURL(){
+function getURL(){
   return window.location.protocol + "//" + window.location.host + window.location.pathname
 }
   
 
 //getUrlParams()        //--> retrun a object with all params in url
-export function getUrlParams (url) {
+function getUrlParams (url) {
     // http://stackoverflow.com/a/23946023/2407309
     if (typeof url == 'undefined') {
         url = window.location.search
@@ -69,7 +69,7 @@ export function getUrlParams (url) {
 }
 
 
-export function goToURL(url){
+function goToURL(url){
     let a = document.createElement('A')
     a.style.display="none"
     a.href=url
@@ -79,7 +79,7 @@ export function goToURL(url){
 
 //convert   <nbsp>5</nbsp>      into    <nbsp>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</nbsp>
 //for an easy alignament of the elements
-export function convertNBSP(){
+function convertNBSP(){
     let nbsp = document.getElementsByTagName('nbsp')
     for (var i = 0; i < nbsp.length; i++) {
       //read and replace all the nbsp
@@ -88,7 +88,7 @@ export function convertNBSP(){
 }
 
 
-export function isHTML(value, view) {
+function isHTML(value, view) {
     //https://stackoverflow.com/a/68279789/11168839
     if (value instanceof HTMLElement) return true
     if (view && value instanceof view.HTMLElement) return true
@@ -102,7 +102,7 @@ export function isHTML(value, view) {
 }
 
 /* arr -> array of strings // each string specify the querrySelector*/
-export function makeDOM(arr){
+function makeDOM(arr){
     if(typeof(arr)=='string')arr=[arr]
     let result ={}
     for (var elem of arr) {
@@ -111,7 +111,7 @@ export function makeDOM(arr){
     return result;
 }
 
-export function getElemByStr(elem){
+function getElemByStr(elem){
     let e = document.getElementById(elem)
     if(e==null){
       e = document.getElementsByClassName(elem)
@@ -139,13 +139,13 @@ export function getElemByStr(elem){
   }
 </style>
 */
-export function highlight(dom){
+function highlight(dom){
     console.log(dom);
     dom.classList.add('highlight')//highlight for 5 seconds
     setTimeout(function(){dom.classList.remove('highlight')},5000)
 }
 
-export function scrollToCenter(dom){
+function scrollToCenter(dom){
     let actualScroll=window.scrollY
     let pageHeight = window.innerHeight/2
     let distance = dom.offsetTop
@@ -156,7 +156,7 @@ export function scrollToCenter(dom){
 }
 
 // get cursor position in textarea
-export function getInputSelection(el) {
+function getInputSelection(el) {
   var start = 0, end = 0, normalizedValue, range, textInputRange, len, endRange;
 
   if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
@@ -202,7 +202,7 @@ export function getInputSelection(el) {
 }
 
 //GET IP, location and more
-export async function getIpData() {
+async function getIpData() {
   
   let myObject = await fetch("https://ipapi.co/json");
   let myText = await myObject.text();
@@ -212,7 +212,15 @@ export async function getIpData() {
 //.then(x => x.text())
 //.then(y=> console.log(y))
 }
-  
+
+// function getPosition(element) {
+//   var clientRect = element.getBoundingClientRect();
+//   return {left: clientRect.left + document.body.scrollLeft,
+//           top: clientRect.top + document.body.scrollTop,
+//           width: element.offsetWidth,
+//           height: element.offsetHeight
+//       };
+// }
 
 
   // //socket.js

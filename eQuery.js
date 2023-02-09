@@ -1,4 +1,4 @@
-export function eQuery(selector){
+function eQuery(selector){
     if(typeof(selector)=="function"){
         document.addEventListener("DOMContentLoaded",selector)
         return

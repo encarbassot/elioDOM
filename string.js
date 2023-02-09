@@ -4,7 +4,7 @@
 *   chunkString('abcdefghi',4,true) =>['abcd', 'efgh', 'i']
 *   chunkString('abcdefghi',2) => ['ab', 'cd', 'ef', 'gh']
 */
-export function chunkString(string,chunkLength=2,remainder=false){
+function chunkString(string,chunkLength=2,remainder=false){
     let result =[]
     let a=0,b=chunkLength
     while (a<string.length) {
@@ -17,7 +17,7 @@ export function chunkString(string,chunkLength=2,remainder=false){
     return result;
 } 
 
-export function levenshteinDistance(str1 = '', str2 = ''){
+function levenshteinDistance(str1 = '', str2 = ''){
     const track = Array(str2.length + 1).fill(null).map(() =>
     Array(str1.length + 1).fill(null));
     for (let i = 0; i <= str1.length; i += 1) {
@@ -40,7 +40,7 @@ export function levenshteinDistance(str1 = '', str2 = ''){
   };
   //console.log(levenshteinDistance(str1, str2));
 
-export function bytesToHuman(n=0){
+function bytesToHuman(n=0){
     const units = ["B","KB","MB","GB","TB"]
     let i = 0
     while(Math.log2(n)>10){
@@ -50,7 +50,7 @@ export function bytesToHuman(n=0){
     return Math.round(n*100)/100+units[i]
 }
 
-export function beginsWith(text,coincidence){
+function beginsWith(text,coincidence){
     if(coincidence.length>text.length)
       return false
     
@@ -64,7 +64,7 @@ export function beginsWith(text,coincidence){
   
   //generate a random code
 
-export function genCode(n){
+function genCode(n){
     const charset="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     let result=""
     for(let i=0;i<n;i++){

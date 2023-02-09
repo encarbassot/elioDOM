@@ -5,12 +5,9 @@
 
 
 ### usage
-index.html
-```<script src="myScript.js type="module></script>```
 
 myScript.js
 ```js
-    import {V} from "./path/to/elioUtils.js"
 
     const myVector = new V(3,4)
     console.log( myVector.module() )

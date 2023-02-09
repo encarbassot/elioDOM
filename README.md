@@ -29,29 +29,24 @@ making my own librarie
 index.html
 ```html
 
-    <script src="yourScript.js" type="module"></script>
+    
+    <script src="elioUtils/array.js"></script>
+    <script src="elioUtils/math.js"></script>
+    <script src="elioUtils/Vector.js"></script>
+    <script src="elioUtils/color.js"></script>
+    <script src="elioUtils/dom.js"></script>
 
-
-```
-
-yourScript.js
-```js
-import {V,math} from "./path/elioUtils.js"
-
-const {lerp} = math
+    <script>
 
 let v = new V(3,4)
 v.module() //returns 5
 
 lerp(5,10,0.5) //returns 7.5
 
-```
-**OR**
-```js
-import * as elioUtils from "./path/elioUtils.js"
-
 elioUtils.math.random(3,10)
 //outputs a random value between 3 and 10
+  </script>
+
 ```
 
 # Math & Numbers Utilities

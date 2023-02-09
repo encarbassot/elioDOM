@@ -1,11 +1,11 @@
-export async function readFile(filename){
+async function readFile(filename){
     const response = await fetch(filename)
     const text = await response.text()
     return text
 }
 
 //download a file with a text value
-export function fileDownload(filename, text) {
+function fileDownload(filename, text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
@@ -30,7 +30,7 @@ export function fileDownload(filename, text) {
               console.log(files)
             })
 */
-export function makeFileInput(dom,callback,dragable=true){
+function makeFileInput(dom,callback,dragable=true){
     if(!isHTML(dom))return
     dom.onchange=(event)=>fileUploadHandler(event,callback)
     dom.ondrop=(event)=>fileUploadHandler(event,callback)
@@ -50,7 +50,7 @@ export function makeFileInput(dom,callback,dragable=true){
     JS:     document.getElementById('files').onchange=(event)=>multipleFileUploadedHandler(event,file_handler_function)
     callback-> function that recive 1 parameter, an array of strings (each string is one file)
   */
-export function fileUploadHandler(evt,callback){
+function fileUploadHandler(evt,callback){
     console.log(evt);
     if(['drop','change','dragover'].includes(evt.type)){
       evt.stopPropagation();

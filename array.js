@@ -2,7 +2,7 @@
  * given a 2D array returns a NxM matrix from the position x,y top left corner
  * result is given in a 1D array
  */
-export function getNine(grid,x,y,n=3,m=undefined){
+function getNine(grid,x,y,n=3,m=undefined){
     let result = []
 
     if(m==undefined){
@@ -24,7 +24,7 @@ export function getNine(grid,x,y,n=3,m=undefined){
 
 
 //from a grid sum all neighbours
-export function getNineSum(grid,x,y,n=3){
+function getNineSum(grid,x,y,n=3){
     let result = 0//[]
     if(m==undefined){
         m=n
@@ -55,7 +55,7 @@ Output: [[1, 4], [2, 5], [3, 6]]
 zip([1, 2, 3], [4, 5, 6, 7], [8, 9, 10]) 
 Output: [[1, 4, 8], [2, 5, 9], [3, 6, 10]]
 */
-export function zip() {
+function zip() {
     let result = [];
     let arrays = Array.from(arguments);
   
@@ -100,7 +100,7 @@ examples
 																			//in case you want a 4D array ... and so on
 	create2Darray(2,2,(j,i)=>create2Darray(2,2)) ->[[[[null,null],[null,null]],[[null,null],[null,null]]],[[[null,null],[null,null]],[[null,null],[null,null]]]]
 */
-export function create2Darray(x,y,filler=undefined,fillWithFunctions=false){
+function create2Darray(x,y,filler=undefined,fillWithFunctions=false){
     console.log();
     let grid = new Array();
     for (var i = 0; i < y; i++) {
@@ -119,7 +119,7 @@ export function create2Darray(x,y,filler=undefined,fillWithFunctions=false){
 make a 2D array bigger to satisfy the (x & y)
 example enlargeGrid([4][4],3,5) => [4][5]
 */
-export function enlargeGrid(grid,x,y,filler=undefined){
+function enlargeGrid(grid,x,y,filler=undefined){
     //helper function to  <enlargeGrid> & <create2Darray>
     function getFiller(j,i,x,filler,fillWithFunctions){
         if(typeof(filler)=='function'&&!fillWithFunctions){
@@ -156,7 +156,7 @@ rotate(matrix,6) -> flip diagonal  /          [must be SQUARE]
 rotate(matrix,7) -> flip diagonal \           [must be SQUARE]
 
 */
-export function rotate90(grid,orientation=1,w=undefined,z=undefined){
+function rotate90(grid,orientation=1,w=undefined,z=undefined){
     let aux;
     w = w??grid.length-1
     z = z??0
