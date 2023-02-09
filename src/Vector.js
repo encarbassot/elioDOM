@@ -1,3 +1,8 @@
+
+////////////////// VECTOR ///////////////////////
+
+
+
 //this file requires elioUtils/math.js 
 
 elioUtils.Vector = class{
@@ -19,7 +24,7 @@ elioUtils.Vector = class{
         return [this.x,this.y]
     }
 
-    ///////////////// MODIFICATION /////////////
+    ///////////////// VECTOR MODIFICATION /////////////
 
     random(){
         let values = Array.from(arguments).filter(x=>typeof(x)=="number")
@@ -92,7 +97,7 @@ elioUtils.Vector = class{
     }
 
 
-    ///////////// MATH /////////////////////
+    ///////////// VECTOR MATH /////////////////////
     add(){
         const v = this.ensureVector(arguments)
         return new elioUtils.Vector(this.x+v.x,this.y+v.y)
@@ -137,7 +142,7 @@ elioUtils.Vector = class{
 
 
     
-////////////// POLAR MATH ////////////
+////////////// VECTOR POLAR MATH ////////////
 
     /*
         c   b
@@ -183,7 +188,7 @@ elioUtils.Vector = class{
 
 
 
-    /////////// COMPARASIONS ///////////
+    /////////// VECTOR COMPARASIONS ///////////
 
     isInsideRangeX(v1,v2,offset=0){
         //TODO ensure2vectors
@@ -319,3 +324,8 @@ function getIntersection(a,b,c,d,e,f,g,h){
     
         return v
     }
+
+
+////////////////// VECTOR ///////////////////////
+
+

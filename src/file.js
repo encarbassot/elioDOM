@@ -1,3 +1,8 @@
+
+
+////////////////// FILE ///////////////////////
+
+
 elioUtils.readFile = async function(filename){
     const response = await fetch(filename)
     const text = await response.text()
@@ -84,3 +89,9 @@ elioUtils.readFileAsText = function(file){
           fr.readAsText(file);
       })
   }
+
+
+////////////////// FILE ///////////////////////
+
+
+

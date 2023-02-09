@@ -1,4 +1,8 @@
 
+
+////////////////// DOM ///////////////////////
+
+
 elioUtils.isTouchDevice = function() {
     return (('ontouchstart' in window) ||
        (navigator.maxTouchPoints > 0) ||
@@ -264,3 +268,9 @@ elioUtils.getIpData = async function () {
   // //https://es.stackoverflow.com/questions/315536/c%c3%b3mo-disparar-un-event-listener-con-una-funci%c3%b3n-virtualmente
   // //SOCKET SERVICE of
   // //https://socketservice.herokuapp.com/
+
+
+
+////////////////// DOM ///////////////////////
+
+

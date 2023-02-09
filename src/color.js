@@ -1,3 +1,9 @@
+
+
+////////////////// COLORS ///////////////////////
+
+
+
 //random color in hexadecimal ->  '#6F75DD'
 elioUtils.randomColor = function() {
     return '#'+randInt(16777215).toString(16).toUpperCase() //could use changeBase()
@@ -48,4 +54,9 @@ elioUtils.contrastColor = function(hex){
           ? '#000000'
           : '#FFFFFF';
 }
+
+
+
+////////////////// COLORS ///////////////////////
+
 

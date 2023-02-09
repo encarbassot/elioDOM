@@ -30,21 +30,20 @@ index.html
 ```html
 
     
-    <script src="elioUtils/array.js"></script>
-    <script src="elioUtils/math.js"></script>
-    <script src="elioUtils/Vector.js"></script>
-    <script src="elioUtils/color.js"></script>
-    <script src="elioUtils/dom.js"></script>
+    <script src="elioUtils/elioUtils.js"></script>
 
     <script>
 
-let v = new V(3,4)
-v.module() //returns 5
+      //unpack
+      const {Vector:V,lerp} = elioUtils
+      let v = new V(3,4)
+      v.module() //returns 5
 
-lerp(5,10,0.5) //returns 7.5
+      lerp(5,10,0.5) //returns 7.5
 
-elioUtils.math.random(3,10)
-//outputs a random value between 3 and 10
+      // or use from the object
+      elioUtils.random(3,10)
+      //outputs a random value between 3 and 10
   </script>
 
 ```

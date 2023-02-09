@@ -1,3 +1,7 @@
+
+////////////////// CANVAS ///////////////////////
+
+
 elioUtils.Canvas = class{
     constructor(){
         this.runningSetup=false
@@ -60,3 +64,9 @@ elioUtils.Canvas = class{
         
     }
 }
+
+
+////////////////// CANVAS ///////////////////////
+
+
+

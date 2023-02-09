@@ -1,4 +1,9 @@
 
+
+
+////////////////// TIME ///////////////////////
+
+
 elioUtils.Timer = class{
     constructor(){
         this.start()
@@ -15,3 +20,8 @@ elioUtils.Timer = class{
         return d.getTime() - this.timestamp
     }
 }
+
+
+////////////////// TIME ///////////////////////
+
+

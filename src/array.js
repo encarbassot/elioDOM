@@ -1,3 +1,6 @@
+
+////////////////// ARRAYS ///////////////////////
+
 /**
  * given a 2D array returns a NxM matrix from the position x,y top left corner
  * result is given in a 1D array
@@ -244,4 +247,6 @@ elioUtils.rotate90 = function(grid,orientation=1,w=undefined,z=undefined){
   
 
   
+////////////////// ARRAYS ///////////////////////
   
+

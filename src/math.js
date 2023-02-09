@@ -1,3 +1,8 @@
+
+
+////////////////// MATH ///////////////////////
+
+
 //Great comon divider
 //ES: Maximo Comun Divisor MCD
 elioUtils.gcd = function(a, b){
@@ -141,3 +146,9 @@ elioUtils.updateBit = function(number, bitPosition, bitValue) {
     const clearMask = ~(1 << bitPosition);
     return (number & clearMask) | (bitValueNormalized << bitPosition);
 }
+
+
+
+////////////////// MATH ///////////////////////
+
+

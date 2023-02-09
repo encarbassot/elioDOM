@@ -1,3 +1,9 @@
+
+
+
+////////////////// STRING ///////////////////////
+
+
 /*
 * Split string on chunks of n characters
 * example:
@@ -72,3 +78,8 @@ elioUtils.genCode = function(n){
     }
     return result;
   }
+
+
+////////////////// STRING ///////////////////////
+
+

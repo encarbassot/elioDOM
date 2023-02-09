@@ -1,4 +1,10 @@
+
+
+////////////////// eQuery///////////////////////
+
+
 elioUtils.eQuery = function (selector){
+    
     if(typeof(selector)=="function"){
         document.addEventListener("DOMContentLoaded",selector)
         return
@@ -31,3 +37,8 @@ elioUtils.eQuery = function (selector){
     return self
 
 }
+
+
+////////////////// eQuery///////////////////////
+
+
