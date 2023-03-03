@@ -113,6 +113,20 @@ Clamps a value value between a minimum min and maximum max.
 ###### overlappingLength()
 Receives two ranges start1 to end1 and start2 to end2 and returns the length of their overlapping range.
 
+# Time Utilities
+
+###### class Timer()
+```js
+  const timer = new Timer()
+  //your code
+  const ellapsed = timer.end()
+  console.log(`Took exactly ${ellapsed}ms`)
+
+```
+
+###### lerpTimeout()
+interpolates a value between two numbers a and b over a specified duration of time time. The function will update the value every step milliseconds and call a callback function each time it is updated.
+
 # File Utilities
 
 ###### readFile(filename)

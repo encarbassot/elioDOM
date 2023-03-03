@@ -106,14 +106,18 @@ elioUtils.isHTML = function(value, view) {
 }
 
 /* arr -> array of strings // each string specify the querrySelector*/
+/* arr -> array of strings // each string specify the querrySelector*/
 elioUtils.makeDOM = function(arr){
-    if(typeof(arr)=='string')arr=[arr]
-    let result ={}
-    for (var elem of arr) {
-      result[elem]=getElemByStr(elem)
-    }
-    return result;
+  if(typeof(arr)=='string')arr=[arr]
+  let result ={}
+  for (var elem of arr) {
+      let str=elem.replace('#','').replace('.','')
+      // result[str]=getElemByStr(elem)
+      result[str]=document.querySelector(elem)
+  }
+  return result;
 }
+
 
 elioUtils.getElemByStr = function(elem){
     let e = document.getElementById(elem)

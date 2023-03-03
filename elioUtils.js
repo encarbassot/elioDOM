@@ -346,9 +346,26 @@ elioUtils.randomColor = function() {
     randomColorHSL()      ->  'hsl(18,77,55)'
     randomColorHSL(10)    ->  'hsl(55,10,70)'
     randomColorHSL(21,30) ->  'hsl(78,21,30)'
+    randomColorHSL(25,95,40,50) ->  'hsl(78,[25;95],[40,50])'
 */
-elioUtils.randomColorHSL = function(sat,light) {
-    return `hsl(${randInt(255)},${sat??randInt(100)}%,${light??randInt(100)}%)`
+elioUtils.randomColorHSL = function(sat=undefined,light=undefined,hue=undefined) {
+
+    const getRandomNumber = (value,n=100) => {
+        if (typeof value === 'number') {
+          return value;
+        } else if (Array.isArray(value)) {
+          const [min, max] = value;
+          return elioUtils.random(min,max);
+        } else {
+          return elioUtils.random(n)
+        }
+    };
+    
+    const h = getRandomNumber(hue,250)
+    const s = getRandomNumber(sat,100)
+    const l = getRandomNumber(light,100)
+
+    return `hsl(${h},${s}%,${l}%)`
 }
 
 elioUtils.hsl = function(hue,saturation=100,lightness=50){
@@ -498,14 +515,18 @@ elioUtils.isHTML = function(value, view) {
 }
 
 /* arr -> array of strings // each string specify the querrySelector*/
+/* arr -> array of strings // each string specify the querrySelector*/
 elioUtils.makeDOM = function(arr){
-    if(typeof(arr)=='string')arr=[arr]
-    let result ={}
-    for (var elem of arr) {
-      result[elem]=getElemByStr(elem)
-    }
-    return result;
+  if(typeof(arr)=='string')arr=[arr]
+  let result ={}
+  for (var elem of arr) {
+      let str=elem.replace('#','').replace('.','')
+      // result[str]=getElemByStr(elem)
+      result[str]=document.querySelector(elem)
+  }
+  return result;
 }
+
 
 elioUtils.getElemByStr = function(elem){
     let e = document.getElementById(elem)
@@ -1069,6 +1090,31 @@ elioUtils.Timer = class{
     }
 }
 
+
+function lerpTimeout(a, b, step, time, callback) {
+    const startTime = Date.now();
+    let currentValue = a;
+    callback(a)
+    
+    const intervalId = setInterval(() => {
+      const elapsedTime = Date.now() - startTime;
+      const progress = elapsedTime / time;
+      if (progress >= 1) {
+        clearInterval(intervalId);
+        callback(b);
+        return;
+      }
+      
+      currentValue = lerp(a, b, progress);
+      callback(currentValue);
+      
+    }, step);
+    
+    function lerp(start, end, progress) {
+      return start + (end - start) * progress;
+    }
+  }
+  
 
 ////////////////// TIME ///////////////////////
 
