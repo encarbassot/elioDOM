@@ -7,6 +7,7 @@ first day and there are 58 diferent functions that i included because i had in d
 making my own librarie
 
 ## contains
+- ElioCanvas (./ElioCanvas.md)
 - class [Vector](./src/Vector.js)
 - functions for [Math & Numbers Utils](#math--numbers-utilities)
 - functions for [File Utils](#file-utilities)
