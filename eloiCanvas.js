@@ -26,6 +26,9 @@ class ElioCanvas {
         this._mouseX = 0
         this._mouseY=0
         this.frameCount = 0
+        this.hasPathBegin = false;
+        this.hasPathFisrtPoint = false;
+
         
         // setup things
         this.appendTo(document.body)
@@ -111,6 +114,48 @@ class ElioCanvas {
         this.ctx.stroke();
     }
     
+    beginPath() {
+        if (this.hasPathBegin) {
+          console.error("Path already started");
+          return;
+        }
+      
+        this.currentPath = new Path2D();
+        this.ctx.beginPath();
+        this.hasPathBegin = true;
+      }
+      
+      vertex(x, y) {
+        if (this.currentPath == undefined) {
+          console.error("Must begin a path before a vertex");
+          return;
+        }
+      
+        if (!this.hasPathFisrtPoint) {
+          this.currentPath.moveTo(x, y);
+          this.hasPathFisrtPoint = true;
+        } else {
+          this.currentPath.lineTo(x, y);
+        }
+      }
+      
+      endPath() {
+        if (!this.hasPathBegin) {
+          console.error("Path not started");
+          return;
+        }
+      
+        this.currentPath.closePath();
+        this.ctx.fill(this.currentPath);
+      
+        if (this.hasStroke) {
+          this.ctx.stroke(this.currentPath);
+        }
+      
+        this.hasPathBegin = false;
+        this.hasPathFisrtPoint = false;
+        this.currentPath = undefined;
+      }
 
     // TRANSLATION & ROTATION
 
