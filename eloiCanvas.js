@@ -186,33 +186,22 @@ class ElioCanvas {
             this.transformStack.push({type:"rotate",radians})
         }
     }
+
+
     saveTransform(){
         this.transformStack.push({type:"commit"})
     }
     restoreTransform(){
-        console.log(this.transformStack)
 
-
-        let saveCounter = 0
         let foundPush = false
         while(this.transformStack.length>0 && !foundPush){
             const p = this.transformStack.pop()
-            console.log(p)
             if(p.type=="commit"){
                 foundPush=true
             }else if(p.type == "rotate"){
-                console.log("UNROTATE")
                 this.rotate(-p.radians,false)
             }else if(p.type=="translate"){
-                console.log("UNTRANSFORM")
                 this.translate(-p.x,-p.y,false)
-            }
-            
-            console.log(this.transformStack)
-
-            if(saveCounter++>10){
-                console.error("AAAAAAAAA")
-                return
             }
         }
     }
@@ -289,6 +278,24 @@ class ElioCanvas {
                 args[2].toString(16).padStart(2, "0")
         }
 
+        return undefined
+    }
+
+    expectingVector(args){
+        if(args.length==1){
+            if(Array.isArray(args[0]) && args[0].length ==2){
+                return args[0]
+            }else if(typeof(args[0] == "object") && args[0].hasOwnProperty("x") && args[0].hasOwnProperty("y")){
+                return [args[0].x,args[0].y]
+            }else if(typeof(args[0])=="string" && args[0].split(",").length == 2){
+                return args[0].split(",").map(x=>parseFloat(x))
+            }
+            
+        }else if(args.length == 2){
+            if(typeof(args[0])=="number" && typeof(args[1])=="number"){
+                return [args[0],args[1]]
+            }
+        }
         return undefined
     }
 

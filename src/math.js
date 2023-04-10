@@ -147,6 +147,29 @@ elioUtils.updateBit = function(number, bitPosition, bitValue) {
     return (number & clearMask) | (bitValueNormalized << bitPosition);
 }
 
+//PID
+elioUtils.PID = function(desiredValue, currentValue,kp=0.01,ki=0.0001,kd=0.03) {
+
+    // Variables for PID controller
+    let prevError = 0;
+    let integral = 0;
+    
+    // Calculate error between desired value and current value
+    const error = desiredValue - currentValue;
+    
+    // Calculate PID output
+    const proportional = kp * error;
+    integral += ki * error;
+    const derivative = kd * (error - prevError);
+    const output = proportional + integral + derivative;
+    
+    // Update previous error for next iteration
+    prevError = error;
+    
+    // Return the new value for the next frame
+    return currentValue + output;
+}
+
 
 
 ////////////////// MATH ///////////////////////
