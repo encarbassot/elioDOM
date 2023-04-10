@@ -23,11 +23,12 @@ class ElioCanvas {
         this.transformStack=[]
 
         //default Values
+        this.frameCount = 0
+
         this.color = "#FF56FF"
-        this.hasStroke = true
         this._mouseX = 0
         this._mouseY = 0
-        this.frameCount = 0
+        this.hasStroke = true
         this.hasPathBegin = false;
         this.hasPathFisrtPoint = false;
 
@@ -129,7 +130,9 @@ class ElioCanvas {
         this.hasPathBegin = true;
     }
 
-    vertex(x, y) {
+    vertex() {
+        const [x,y] = this.expectingVector(arguments)
+
         if (this.currentPath == undefined) {
             console.error("Must begin a path before a vertex");
             return;
@@ -171,44 +174,26 @@ class ElioCanvas {
 
     // TRANSLATION & ROTATION
 
-    translate(x, y,commit=true) {
+    translate(x, y) {
         this.ctx.translate(x, y);
-        if(commit){
-            this.transformStack.push({type:"translate",x,y})
-        }
     }
 
-    rotate(angle,commit=true) {
+    rotate(angle) {
         const radians = this.getRadians(angle);
-
         this.ctx.rotate(radians);
-        if(commit){
-            this.transformStack.push({type:"rotate",radians})
-        }
     }
 
 
     saveTransform(){
-        this.transformStack.push({type:"commit"})
+        this.transformStack.push(this.ctx.getTransform())
     }
     restoreTransform(){
-
-        let foundPush = false
-        while(this.transformStack.length>0 && !foundPush){
-            const p = this.transformStack.pop()
-            if(p.type=="commit"){
-                foundPush=true
-            }else if(p.type == "rotate"){
-                this.rotate(-p.radians,false)
-            }else if(p.type=="translate"){
-                this.translate(-p.x,-p.y,false)
-            }
-        }
+        this.ctx.setTransform(this.transformStack.pop())
     }
 
     //UNITS
 
-    setDegreeMode(mode) {
+    setAngleMode(mode) {
         this.degreeMode = mode;
     }
 
@@ -217,7 +202,6 @@ class ElioCanvas {
 
 
     //LOOP
-
 
     noLoop() {
         this.looping = false;
@@ -263,6 +247,7 @@ class ElioCanvas {
     expectingColor(args) {
         //accept background(grayScale:Number)
         //accept background(red:number,green:Number,blue:Number)
+        //accept bacgtound([red:number,green:Number,blue:Number])
         //accept background(hexCode:String)
 
         if (args.length == 1) {
@@ -270,6 +255,8 @@ class ElioCanvas {
                 return "#" + args[0].toString(16).padStart(2, "0").repeat(3)
             } else if (typeof args[0] == "string") {
                 return args[0]
+            }else if(Array.isArray(args[0])){
+                return this.expectingColor(args[0])
             }
         } else if (args.length == 3) {
             return "#" +
