@@ -403,6 +403,26 @@ elioUtils.contrastColor = function(hex){
 }
 
 
+elioUtils.getComplementaryColor = function (hexColor) {
+    // Remove the # symbol if it exists
+    hexColor = hexColor.replace("#", "");
+  
+    // Convert the hexadecimal color to RGB
+    const r = parseInt(hexColor.substring(0, 2), 16);
+    const g = parseInt(hexColor.substring(2, 4), 16);
+    const b = parseInt(hexColor.substring(4, 6), 16);
+  
+    // Calculate the complement of each color channel
+    const compR = 255 - r;
+    const compG = 255 - g;
+    const compB = 255 - b;
+  
+    // Convert the complementary RGB values back to hexadecimal
+    const compHexColor = "#" + ((1 << 24) + (compR << 16) + (compG << 8) + compB).toString(16).slice(1);
+  
+    return compHexColor;
+  }
+  
 
 ////////////////// COLORS ///////////////////////
 
@@ -410,7 +430,30 @@ elioUtils.contrastColor = function(hex){
 
 
 ////////////////// DOM ///////////////////////
-
+elioUtils.getWebTitle = function (url){
+  // Make a GET request to the URL
+  fetch(url)
+    .then(response => {
+      // If the response is successful, parse the HTML
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error('Network response was not ok.');
+      }
+    })
+    .then(html => {
+      // Parse the HTML and extract the title
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const title = doc.querySelector('title').textContent;
+      
+      // Return the title
+      return title;
+    })
+    .catch(error => {
+      console.error('Error fetching web title:', error);
+    });
+}
 
 elioUtils.isTouchDevice = function() {
     return (('ontouchstart' in window) ||

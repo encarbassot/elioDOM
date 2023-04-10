@@ -56,7 +56,7 @@ elioUtils.invertColor = function(hex){
     return '#'+chunkString(hex,2).map(ch=>(255-parseInt(ch, 16)).toString(16)).join('').toUpperCase()
 }
 
-//if color is darck you get white as response
+//if color is dark you get white as response
 //if color is light you get black as response
 elioUtils.contrastColor = function(hex){
     if (hex.indexOf('#') === 0) {
@@ -73,6 +73,26 @@ elioUtils.contrastColor = function(hex){
 }
 
 
+elioUtils.getComplementaryColor = function (hexColor) {
+    // Remove the # symbol if it exists
+    hexColor = hexColor.replace("#", "");
+  
+    // Convert the hexadecimal color to RGB
+    const r = parseInt(hexColor.substring(0, 2), 16);
+    const g = parseInt(hexColor.substring(2, 4), 16);
+    const b = parseInt(hexColor.substring(4, 6), 16);
+  
+    // Calculate the complement of each color channel
+    const compR = 255 - r;
+    const compG = 255 - g;
+    const compB = 255 - b;
+  
+    // Convert the complementary RGB values back to hexadecimal
+    const compHexColor = "#" + ((1 << 24) + (compR << 16) + (compG << 8) + compB).toString(16).slice(1);
+  
+    return compHexColor;
+  }
+  
 
 ////////////////// COLORS ///////////////////////
 

@@ -1,7 +1,30 @@
 
 
 ////////////////// DOM ///////////////////////
-
+elioUtils.getWebTitle = function (url){
+  // Make a GET request to the URL
+  fetch(url)
+    .then(response => {
+      // If the response is successful, parse the HTML
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error('Network response was not ok.');
+      }
+    })
+    .then(html => {
+      // Parse the HTML and extract the title
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const title = doc.querySelector('title').textContent;
+      
+      // Return the title
+      return title;
+    })
+    .catch(error => {
+      console.error('Error fetching web title:', error);
+    });
+}
 
 elioUtils.isTouchDevice = function() {
     return (('ontouchstart' in window) ||
