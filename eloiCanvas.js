@@ -12,18 +12,42 @@ class ElioCanvas {
         this.canvas.width = width || window.innerWidth;
         this.canvas.height = height || window.innerHeight;
         this.ctx = this.canvas.getContext("2d");
+
+
         this.degreeMode = ElioCanvas.RADIANS;
         this.looping = true;
         this.frameRequest = null;
         this.setup = function () { };
         this.draw = function () { };
-        this.color = "#000000"
 
+        
+        // setup things
         this.appendTo(document.body)
 
-        this.start()
+        this.ctx.strokeStyle=this.strokeStyle
+        this.canvas.addEventListener("mousemove", (event) => {
+            this._mouseX = event.clientX - this.canvas.offsetLeft;
+            this._mouseY = event.clientY - this.canvas.offsetTop;
+        });
     }
 
+    //SETTERS & GETTERS for canvas and CTX
+    set width(w){this.canvas.width=w}
+    get width(){return this.canvas.width}
+
+    set height(h){this.canvas.height=h}
+    get height(){return this.canvas.height}
+    
+    get DEGREES(){return ElioCanvas.DEGREES}
+    get RADIANS(){return ElioCanvas.RADIANS}
+
+    get PI(){return ElioCanvas.PI}
+    get HALF_PI(){return ElioCanvas.HALF_PI}
+    get QUARTER_PI(){return ElioCanvas.QUARTER_PI}
+    get TWO_PI(){return ElioCanvas.TWO_PI}
+
+    get mouseX() {return this._mouseX}
+    get mouseY() {return this._mouseY}
 
     //COLORING
     background() {
@@ -32,10 +56,99 @@ class ElioCanvas {
     }
 
     fill(){
-        this.color = this.expectingColor(arguments)
+        this.ctx.fillStyle = this.expectingColor(arguments)
+    }
+
+    stroke(){
+        this.ctx.strokeStyle= this.expectingColor(arguments)
+    }
+
+    //SHAPES
+
+    rect(x, y, width, height) {
+        
+        this.ctx.fillRect(x, y, width, height);
+    }
+
+    image(image, x, y, width, height) {
+        this.ctx.drawImage(image, x, y, width, height);
+    }
+
+    line(x, y, x2, y2) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y);
+        this.ctx.lineTo(x2, y2);
+        this.ctx.stroke();
+    }
+    
+
+    // TRANSLATION & ROTATION
+
+    translate(x, y) {
+        this.ctx.translate(x, y);
+    }
+
+    rotate(angle) {
+        const radians = this.getRadians(angle);
+
+        this.ctx.rotate(radians);
+    }
+
+    //UNITS
+
+    setDegreeMode(mode) {
+        this.degreeMode = mode;
+    }
+
+    
+
+    
+
+    //LOOP
+
+
+    noLoop() {
+        this.looping = false;
+        cancelAnimationFrame(this.frameRequest);
+    }
+
+    loop() {
+        const self = this;
+        function loop() {
+            //code executed each frame
+            self.draw();
+            self.ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+            if (self.looping) {
+                self.frameRequest = requestAnimationFrame(loop);
+            }
+        }
+        loop();
+    }
+
+    start() {
+        this.setup();
+        this.loop();
+    }
+
+
+
+    //STRICT
+    //helper functions for the user to input diferent values, but the function needs it in a specific fromat
+    getRadians(value) {
+        //transforms untis to the current mode already setted
+
+        if (this.degreeMode === ElioCanvas.DEGREES) {
+            return value * (Math.PI / 180);
+        }
+        return value;
     }
 
     expectingColor(args){
+        //accept background(grayScale:Number)
+        //accept background(red:number,green:Number,blue:Number)
+        //accept background(hexCode:String)
+
         if(args.length == 1){
             if(typeof args[0]=="number"){
                 return "#"+args[0].toString(16).padStart(2,"0").repeat(3)
@@ -53,67 +166,19 @@ class ElioCanvas {
         return "#ff0000"
     }
 
-    //SHAPES
-
-    rect(x, y, width, height) {
-        this.ctx.fillStyle = this.color;
-        this.ctx.fillRect(x, y, width, height);
-    }
-
-    image(image, x, y, width, height) {
-        this.ctx.drawImage(image, x, y, width, height);
-    }
-
-    
-
-    // TRANSLATION
-    rotate(degrees) {
-        const radians = this.getRadians(degrees);
-        this.ctx.rotate(radians);
-    }
-
-    //UNITS
-
-    setDegreeMode(mode) {
-        this.degreeMode = mode;
-    }
-
-    getRadians(value) {
-        if (this.degreeMode === ElioCanvas.DEGREES) {
-            return value * (Math.PI / 180);
-        }
-        return value;
-    }
 
     //DOM
     appendTo(element) {
-        console.log(element)
         element.appendChild(this.canvas);
     }
 
-    //LOOP
-
-
-    noLoop() {
-        this.looping = false;
-        cancelAnimationFrame(this.frameRequest);
-    }
-
-    loop() {
-        const self = this;
-        function loop() {
-            self.draw();
-            if (self.looping) {
-                self.frameRequest = requestAnimationFrame(loop);
-            }
-        }
-        loop();
-    }
-
-    start() {
-        this.setup();
-        this.loop();
-    }
+    toDataURL = function(type = "image/png", quality = 1.0) {
+        return this.canvas.toDataURL(type, quality);
+    };
 }
 
 export default ElioCanvas;
+
+
+// Use the following line of code to set the canvas content on the favicon
+//   document.querySelector("head link[rel=icon]").href=cv.toDataURL()
