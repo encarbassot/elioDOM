@@ -17,9 +17,15 @@ class ElioCanvas {
         this.degreeMode = ElioCanvas.RADIANS;
         this.looping = true;
         this.frameRequest = null;
-        this.setup = function () { };
-        this.draw = function () { };
+        this.setup = ()=> { };
+        this.draw = ()=> {this.noLoop() };
 
+        //default Values
+        this.color="#FF56FF"
+        this.hasStroke=true
+        this._mouseX = 0
+        this._mouseY=0
+        this.frameCount = 0
         
         // setup things
         this.appendTo(document.body)
@@ -32,7 +38,11 @@ class ElioCanvas {
     }
 
     //SETTERS & GETTERS for canvas and CTX
-    set width(w){this.canvas.width=w}
+    set width(w){this.canvas.width=class Player{
+        constructor(){
+            this.car = new Car()
+        }
+    }}
     get width(){return this.canvas.width}
 
     set height(h){this.canvas.height=h}
@@ -53,23 +63,43 @@ class ElioCanvas {
     background() {
         this.ctx.fillStyle = this.expectingColor(arguments);
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = this.color
+
     }
 
     fill(){
-        this.ctx.fillStyle = this.expectingColor(arguments)
+        this.color = this.expectingColor(arguments)
+        this.ctx.fillStyle = this.color
     }
 
+    noStroke(){
+        this.hasStroke= false
+    }
     stroke(){
-        this.ctx.strokeStyle= this.expectingColor(arguments)
+        this.ctx.strokeStyle= this.expectingColor(arguments) || this.color
+        this.hasStroke=true
+    }
+    strokeWeight(weight) {
+        this.ctx.lineWidth = weight;
     }
 
     //SHAPES
 
     rect(x, y, width, height) {
         
+        if (this.hasStroke) {
+            this.ctx.strokeRect(x, y, width, height);
+        }
         this.ctx.fillRect(x, y, width, height);
     }
-
+    circle(x,y,rad){
+        this.ctx.beginPath()
+        this.ctx.arc(x,y,rad, 0, Math.PI * 2);
+        this.ctx.fill()
+        if(this.hasStroke){
+            this.ctx.stroke()
+        }
+    }
     image(image, x, y, width, height) {
         this.ctx.drawImage(image, x, y, width, height);
     }
@@ -116,9 +146,10 @@ class ElioCanvas {
         const self = this;
         function loop() {
             //code executed each frame
-            self.draw();
+            self.draw(self.frameCount);
             self.ctx.setTransform(1, 0, 0, 1, 0, 0);
-
+            self.frameCount++
+            
             if (self.looping) {
                 self.frameRequest = requestAnimationFrame(loop);
             }
@@ -162,8 +193,7 @@ class ElioCanvas {
                 args[2].toString(16).padStart(2,"0")
         }
 
-        console.error("Color specification didnt went well for:",args)
-        return "#ff0000"
+        return undefined
     }
 
 
