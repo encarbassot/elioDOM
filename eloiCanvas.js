@@ -1,6 +1,7 @@
 class ElioCanvas {
     static DEGREES = "DEGREES";
     static RADIANS = "RADIANS";
+    static REVOLUTIONS = "REVOLUTIONS";
 
     static PI = Math.PI
     static HALF_PI = ElioCanvas.PI / 2
@@ -19,6 +20,7 @@ class ElioCanvas {
         this.frameRequest = null;
         this.setup = () => { };
         this.draw = () => { this.noLoop() };
+        this.transformStack=[]
 
         //default Values
         this.color = "#FF56FF"
@@ -169,14 +171,50 @@ class ElioCanvas {
 
     // TRANSLATION & ROTATION
 
-    translate(x, y) {
+    translate(x, y,commit=true) {
         this.ctx.translate(x, y);
+        if(commit){
+            this.transformStack.push({type:"translate",x,y})
+        }
     }
 
-    rotate(angle) {
+    rotate(angle,commit=true) {
         const radians = this.getRadians(angle);
 
         this.ctx.rotate(radians);
+        if(commit){
+            this.transformStack.push({type:"rotate",radians})
+        }
+    }
+    saveTransform(){
+        this.transformStack.push({type:"commit"})
+    }
+    restoreTransform(){
+        console.log(this.transformStack)
+
+
+        let saveCounter = 0
+        let foundPush = false
+        while(this.transformStack.length>0 && !foundPush){
+            const p = this.transformStack.pop()
+            console.log(p)
+            if(p.type=="commit"){
+                foundPush=true
+            }else if(p.type == "rotate"){
+                console.log("UNROTATE")
+                this.rotate(-p.radians,false)
+            }else if(p.type=="translate"){
+                console.log("UNTRANSFORM")
+                this.translate(-p.x,-p.y,false)
+            }
+            
+            console.log(this.transformStack)
+
+            if(saveCounter++>10){
+                console.error("AAAAAAAAA")
+                return
+            }
+        }
     }
 
     //UNITS
@@ -201,7 +239,8 @@ class ElioCanvas {
         const self = this;
         function loop() {
             //code executed each frame
-            self.draw(self.frameCount);
+            self.transformStack=[]
+            self.draw(self.frameCount); // USER FUNCTION
             self.ctx.setTransform(1, 0, 0, 1, 0, 0);
             self.frameCount++
 
@@ -225,7 +264,9 @@ class ElioCanvas {
         //transforms untis to the current mode already setted
 
         if (this.degreeMode === ElioCanvas.DEGREES) {
-            return value * (Math.PI / 180);
+            return value * (ElioCanvas.PI / 180);
+        }else if(this.degreeMode === ElioCanvas.REVOLUTIONS){
+            return value * ElioCanvas.TWO_PI
         }
         return value;
     }
