@@ -1,6 +1,8 @@
 #ElioCanvas.js
 
-##Hello world
+## Hello world
+
+see the source file [here](./eloiCanvas.js)
 
 ```js
 
@@ -24,7 +26,7 @@ cv.start()
 
 ```
 
-##Creating the canvas
+## Creating the canvas
 ```js
     //this creates a canvas 400x600
     const cv = new ElioCanvas(400,600)
@@ -37,7 +39,7 @@ cv.start()
     cv.appendTo(document.getElementById("myDiv"))
 ```
 
-##Figures
+## Figures
 ```js
 
     //create a circle
@@ -55,7 +57,7 @@ cv.start()
 
 ```
 
-##Coloring
+## Coloring
 ```js
     //background clears the hole screen with a solid color
     cv.background(255,0,0) // paints background red
@@ -88,7 +90,7 @@ This three functions recieve the same parameters, but you can input almost every
 
 ```
 
-#Transformations
+## Transformations
 ```js
     //rotates the screen from the top left cornenr
     cv.rotate(cv.PI)
@@ -123,5 +125,20 @@ but all transformations are acomulative, and this endup being a mess if you have
 
     cv.restoreTransform()// goes back one level
     cv.restoreTransform()// goes back another time 
+
+```
+
+## Animation
+```js
+    //stop the animation in the function draw
+    cv.noLoop()
+
+    //recover the animation in the bucle draw
+    cv.loop()
+
+    cv.draw=function(framecount){
+        console.log(framecount)
+        //every time draw() is called, will increment by 1, starting from 0
+    }
 
 ```

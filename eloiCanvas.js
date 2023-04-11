@@ -24,6 +24,7 @@ class ElioCanvas {
 
         //default Values
         this.frameCount = 0
+        this.startTimestamp = 0
 
         this.color = "#FF56FF"
         this._mouseX = 0
@@ -213,7 +214,8 @@ class ElioCanvas {
         function loop() {
             //code executed each frame
             self.transformStack=[]
-            self.draw(self.frameCount); // USER FUNCTION
+            const elapsed = Date.now() - self.startTimestamp
+            self.draw(self.frameCount,elapsed); // USER FUNCTION
             self.ctx.setTransform(1, 0, 0, 1, 0, 0);
             self.frameCount++
 
@@ -225,6 +227,7 @@ class ElioCanvas {
     }
 
     start() {
+        this.startTimestamp = Date.now()
         this.setup();
         this.loop();
     }
