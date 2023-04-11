@@ -4,6 +4,9 @@ I made this canvas library with a big inspiration of [p5.js](https://p5js.org)
 
 see the source file [here](./eloiCanvas.js)
 
+
+## Usage
+
 ```js
 
 import ElioCanvas from "./elioCanvas.js"
