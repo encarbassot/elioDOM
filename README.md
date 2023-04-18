@@ -1,10 +1,11 @@
 # elioUtils.js
 
-utilities i always needed
+Utilities i always needed
 
-first day and there are 58 diferent functions that i included because i had in different files lying arround, now finaly i'm making the big boy.
+First day and there are 58 different functions that i included because i had them in different files lying around. 
+Now, finally, I'm making the big boy.
 
-making my own librarie
+making my own library
 
 ## contains
 - [ElioCanvas](./ElioCanvas.md)
@@ -16,9 +17,9 @@ making my own librarie
 - functions for [Color Utils](#color-utilities)
 - functions for [String Utils](#string-utilities)
 
-## TODO (someday will contain)
+## TODO (some day will contain...)
 - class [Canvas](./src/Canvas.js) like [p5.js](p5js.org) 
-    * but without 34.387 gloval methods and libraries and anoying console messages
+    * but without 34.387 global methods and libraries and annoying console messages
 - class Box
 - class ParametricArguments 
     * (help functions have multiple inputs) like min(1,2,3) min([1,2,3])
