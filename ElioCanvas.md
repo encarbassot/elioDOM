@@ -132,7 +132,7 @@ cv.start();
     |    |                     |        |                    |                     |
     |-sx-+----------+          |        | -------dx--------- +----------+          |
     |    |          |          |        |                    |          |          |
-    |    |        sh|          |        |                    |        dh|          |
+    |    |        sh|          |   ->   |                    |        dh|          |
     |    |    sw    |          |        |                    |          |          |
     |    +----------+          |        |                    |   dw     |          |
     |                          |        |                    +----------+          |
@@ -162,7 +162,7 @@ cv.image(img, x, y, img.widht*2, img.height)
 cv.image(img, 0, 0, img.width/2, img.height/2, x, y, 50, 50)
 
 ```
-[MDN explanation](https://developer.mozilla.org/es/docs/Web/API/CanvasRenderingContext2D/drawImage)
+[MDN explanation](https://developer.mozilla.org/es/docs/Web/API/CanvasRenderingContext2D/drawImage),
 [P5js explanation](https://p5js.org/es/reference/#/p5/image)
 
 
@@ -216,5 +216,35 @@ but all transformations are acomulative, and this endup being a mess if you have
         console.log(framecount)
         //every time draw() is called, will increment by 1, starting from 0
     }
+
+```
+
+## Pixels
+pixels is an unidimensional array with the values of all pixels in the screen  
+***ex:*** `[r1,g1,b1,a1,r2,g2,b2,a2,r3...]`  
+take in mind that this loop will execute 30 to 60 times per second, 
+and every frame will loop width * height times
+this can lower the frame rate a lot if you put lot of code inside
+```js
+
+    // Load pixels
+    const pixels = cv.loadPixels();
+
+    // Invert pixels
+    for (let i = 0; i < pixels.length; i += 4) {
+        //get (x,y) position of the pixel
+        // const x = (i / 4) % width;
+        // const y = Math.floor(i / 4 / width);
+        
+        const r = pixels[i];
+        const g = pixels[i + 1];
+        const b = pixels[i + 2];
+        pixels[i] = 255 - r;
+        pixels[i + 1] = 255 - r;
+        pixels[i + 2] = 255 - b;
+    }
+
+    // Update canvas with modified pixels
+    cv.updatePixels(pixels);
 
 ```

@@ -21,7 +21,7 @@ class ElioCanvas {
         this.preload = () => { };
         this.setup = () => { };
         this.draw = () => { this.noLoop() };
-        this.transformStack=[]
+        this.transformStack = []
         this.promisesImg = [] // promises to load images
 
         //default Values
@@ -47,7 +47,7 @@ class ElioCanvas {
     }
 
     //SETTERS & GETTERS for canvas and CTX
-    set width(w) {this.canvas.width = w}
+    set width(w) { this.canvas.width = w }
     get width() { return this.canvas.width }
 
     set height(h) { this.canvas.height = h }
@@ -128,7 +128,7 @@ class ElioCanvas {
     }
 
     vertex() {
-        const [x,y] = this.expectingVector(arguments)
+        const [x, y] = this.expectingVector(arguments)
 
         if (this.currentPath == undefined) {
             console.error("Must begin a path before a vertex");
@@ -182,10 +182,10 @@ class ElioCanvas {
     }
 
 
-    saveTransform(){
+    saveTransform() {
         this.transformStack.push(this.ctx.getTransform())
     }
-    restoreTransform(){
+    restoreTransform() {
         this.ctx.setTransform(this.transformStack.pop())
     }
 
@@ -195,9 +195,38 @@ class ElioCanvas {
         this.degreeMode = mode;
     }
 
+
+    //PIXELS
+    loadPixels() {
+        const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+        return imageData.data;
+    }
+
+    updatePixels(pixels) {
+        const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+        imageData.data.set(pixels);
+        this.ctx.putImageData(imageData, 0, 0);
+    }
+
+
+    mapPixels(callback) {
+        const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+        const pixels = imageData.data;
+        for (let i = 0; i < pixels.length; i += 4) {
+            const x = (i / 4) % this.canvas.width;
+            const y = Math.floor(i / (this.canvas.width * 4));
+            const [_r, _g, _b, _alpha] = callback(x, y, [pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]]);
+            pixels[i] = _r;
+            pixels[i + 1] = _g;
+            pixels[i + 2] = _b;
+            pixels[i + 3] = _alpha;
+        }
+        this.ctx.putImageData(imageData, 0, 0);
+    }
+
     // IMAGE
-    image(img,...args){
-        this.ctx.drawImage(img,...args)
+    image(img, ...args) {
+        this.ctx.drawImage(img, ...args)
     }
 
     // IMAGE LOADING
@@ -205,27 +234,29 @@ class ElioCanvas {
     loadImage(path) {
         const img = new Image();
         img.src = path;
-      
+
         const promise = new Promise((resolve, reject) => {
-          img.onload = function() {
-            resolve(img);
-          };
-      
-          img.onerror = function() {
-            reject(`Error loading image: ${path}`);
-          };
+            img.onload = function () {
+                resolve(img);
+            };
+
+            img.onerror = function () {
+                reject(`Error loading image: ${path}`);
+            };
         });
-      
+
         this.promisesImg.push(promise)
-      
+
         return img;
     }
 
 
+    //PRELOAD IMAGES
+
     async preloadCaller(cbck) {
-        if(this.preload){
+        if (this.preload) {
             this.preload()
-        
+
             try {
                 await Promise.all(this.promisesImg);
                 console.log("All images have loaded!");
@@ -233,7 +264,7 @@ class ElioCanvas {
             } catch (error) {
                 console.error(error);
             }
-        }else{
+        } else {
             cbck()
         }
     }
@@ -251,9 +282,9 @@ class ElioCanvas {
         const self = this;
         function loop() {
             //code executed each frame
-            self.transformStack=[]
+            self.transformStack = []
             const elapsed = Date.now() - self.startTimestamp
-            self.draw(self.frameCount,elapsed); // USER FUNCTION
+            self.draw(self.frameCount, elapsed); // USER FUNCTION
             self.ctx.setTransform(1, 0, 0, 1, 0, 0);
             self.frameCount++
 
@@ -265,7 +296,7 @@ class ElioCanvas {
     }
 
     start() {
-        this.preloadCaller(()=>{
+        this.preloadCaller(() => {
             //when images are loaded
 
             this.startTimestamp = Date.now()
@@ -284,7 +315,7 @@ class ElioCanvas {
 
         if (this.degreeMode === ElioCanvas.DEGREES) {
             return value * (ElioCanvas.PI / 180);
-        }else if(this.degreeMode === ElioCanvas.REVOLUTIONS){
+        } else if (this.degreeMode === ElioCanvas.REVOLUTIONS) {
             return value * ElioCanvas.TWO_PI
         }
         return value;
@@ -301,7 +332,7 @@ class ElioCanvas {
                 return "#" + args[0].toString(16).padStart(2, "0").repeat(3)
             } else if (typeof args[0] == "string") {
                 return args[0]
-            }else if(Array.isArray(args[0])){
+            } else if (Array.isArray(args[0])) {
                 return this.expectingColor(args[0])
             }
         } else if (args.length == 3) {
@@ -314,19 +345,19 @@ class ElioCanvas {
         return undefined
     }
 
-    expectingVector(args){
-        if(args.length==1){
-            if(Array.isArray(args[0]) && args[0].length ==2){
+    expectingVector(args) {
+        if (args.length == 1) {
+            if (Array.isArray(args[0]) && args[0].length == 2) {
                 return args[0]
-            }else if(typeof(args[0] == "object") && args[0].hasOwnProperty("x") && args[0].hasOwnProperty("y")){
-                return [args[0].x,args[0].y]
-            }else if(typeof(args[0])=="string" && args[0].split(",").length == 2){
-                return args[0].split(",").map(x=>parseFloat(x))
+            } else if (typeof (args[0] == "object") && args[0].hasOwnProperty("x") && args[0].hasOwnProperty("y")) {
+                return [args[0].x, args[0].y]
+            } else if (typeof (args[0]) == "string" && args[0].split(",").length == 2) {
+                return args[0].split(",").map(x => parseFloat(x))
             }
-            
-        }else if(args.length == 2){
-            if(typeof(args[0])=="number" && typeof(args[1])=="number"){
-                return [args[0],args[1]]
+
+        } else if (args.length == 2) {
+            if (typeof (args[0]) == "number" && typeof (args[1]) == "number") {
+                return [args[0], args[1]]
             }
         }
         return undefined
