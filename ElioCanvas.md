@@ -93,6 +93,81 @@ This three functions recieve the same parameters, but you can input almost every
 
 ```
 
+## Images
+
+**Loading images:** images are a bit more complex, since they need to be preloaded, for this reason, in order to simplify the code exists the method **preload()**
+
+```js
+
+const cv = new ElioCanvas();
+let img1, img2;
+
+cv.preload = function(){
+    img1 = cv.loadImage("/images/3dprinter.jpg")
+    img2 = cv.loadImage("/images/donut2.png")
+}
+
+cv.draw = function (f,millis) {
+
+    cv.background(200,30,0); //red
+
+    cv.image(img1,0,150,300,400)
+    cv.image(img2,100,200)
+
+};
+
+cv.start();
+
+
+```
+
+**Drawing images:**
+
+```js
+/*
+     img Source                          canvas
+    +--------------------------+        +------------------------------------------+
+    |    |                     |        |                    |                     |
+    |    sy                    |        |                    dy                    |
+    |    |                     |        |                    |                     |
+    |-sx-+----------+          |        | -------dx--------- +----------+          |
+    |    |          |          |        |                    |          |          |
+    |    |        sh|          |        |                    |        dh|          |
+    |    |    sw    |          |        |                    |          |          |
+    |    +----------+          |        |                    |   dw     |          |
+    |                          |        |                    +----------+          |
+    +--------------------------+        |                                          |
+                                        |                                          |
+                                        |                                          |
+                                        |                                          |
+                                        +------------------------------------------+
+*/
+
+//cv.image(image, dx, dy);
+//cv.image(image, dx, dy, dWidth, dHeight);
+//cv.image(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+
+//Let's say we have an image divided in 4 sectors
+
+let x=0,y=0
+
+//draw the whole image with top corner at(0,0)
+cv.image(img, x, y)
+//draws the image with original dimentions
+
+//draw the image streched twice with as the original
+cv.image(img, x, y, img.widht*2, img.height)
+
+//Draw the top left corner of the image, and represented as 50x50 result
+cv.image(img, 0, 0, img.width/2, img.height/2, x, y, 50, 50)
+
+
+
+```
+[MDN explanation](https://developer.mozilla.org/es/docs/Web/API/CanvasRenderingContext2D/drawImage)
+[P5js explanation](https://p5js.org/es/reference/#/p5/image)
+
+
 ## Transformations
 ```js
     //rotates the screen from the top left cornenr

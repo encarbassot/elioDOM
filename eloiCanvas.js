@@ -18,9 +18,11 @@ class ElioCanvas {
         this.degreeMode = ElioCanvas.RADIANS;
         this.looping = true;
         this.frameRequest = null;
+        this.preload = () => { };
         this.setup = () => { };
         this.draw = () => { this.noLoop() };
         this.transformStack=[]
+        this.promisesImg = [] // promises to load images
 
         //default Values
         this.frameCount = 0
@@ -45,13 +47,7 @@ class ElioCanvas {
     }
 
     //SETTERS & GETTERS for canvas and CTX
-    set width(w) {
-        this.canvas.width = class Player {
-            constructor() {
-                this.car = new Car()
-            }
-        }
-    }
+    set width(w) {this.canvas.width = w}
     get width() { return this.canvas.width }
 
     set height(h) { this.canvas.height = h }
@@ -173,6 +169,7 @@ class ElioCanvas {
         this.endPath()
     }
 
+
     // TRANSLATION & ROTATION
 
     translate(x, y) {
@@ -198,7 +195,48 @@ class ElioCanvas {
         this.degreeMode = mode;
     }
 
+    // IMAGE
+    image(img,...args){
+        this.ctx.drawImage(img,...args)
+    }
 
+    // IMAGE LOADING
+
+    loadImage(path) {
+        const img = new Image();
+        img.src = path;
+      
+        const promise = new Promise((resolve, reject) => {
+          img.onload = function() {
+            resolve(img);
+          };
+      
+          img.onerror = function() {
+            reject(`Error loading image: ${path}`);
+          };
+        });
+      
+        this.promisesImg.push(promise)
+      
+        return img;
+    }
+
+
+    async preloadCaller(cbck) {
+        if(this.preload){
+            this.preload()
+        
+            try {
+                await Promise.all(this.promisesImg);
+                console.log("All images have loaded!");
+                cbck();
+            } catch (error) {
+                console.error(error);
+            }
+        }else{
+            cbck()
+        }
+    }
 
 
 
@@ -227,11 +265,16 @@ class ElioCanvas {
     }
 
     start() {
-        this.startTimestamp = Date.now()
-        this.setup();
-        this.loop();
+        this.preloadCaller(()=>{
+            //when images are loaded
+
+            this.startTimestamp = Date.now()
+            this.setup();
+            this.loop();
+        })
     }
 
+    //PRELOAD
 
 
     //STRICT
