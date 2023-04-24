@@ -161,8 +161,6 @@ cv.image(img, x, y, img.widht*2, img.height)
 //Draw the top left corner of the image, and represented as 50x50 result
 cv.image(img, 0, 0, img.width/2, img.height/2, x, y, 50, 50)
 
-
-
 ```
 [MDN explanation](https://developer.mozilla.org/es/docs/Web/API/CanvasRenderingContext2D/drawImage)
 [P5js explanation](https://p5js.org/es/reference/#/p5/image)
