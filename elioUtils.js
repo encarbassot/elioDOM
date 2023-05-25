@@ -386,7 +386,7 @@ elioUtils.invertColor = function(hex){
     return '#'+chunkString(hex,2).map(ch=>(255-parseInt(ch, 16)).toString(16)).join('').toUpperCase()
 }
 
-//if color is darck you get white as response
+//if color is dark you get white as response
 //if color is light you get black as response
 elioUtils.contrastColor = function(hex){
     if (hex.indexOf('#') === 0) {
@@ -461,6 +461,31 @@ elioUtils.isTouchDevice = function() {
        (navigator.msMaxTouchPoints > 0));
 }
 
+elioUtils.createElement = function(type, content, parent, attributes) {
+  
+  const element = document.createElement(type);
+  
+  if (content instanceof HTMLElement) {
+    element.appendChild(content);
+  } else if (typeof content === 'string') {
+    element.innerHTML = content;
+  }
+  
+  if (parent instanceof HTMLElement) {
+    console.log("APPEND")
+    parent.appendChild(element);
+  }
+  
+  if (attributes && typeof attributes === 'object') {
+    for (let attr in attributes) {
+      if (attributes.hasOwnProperty(attr)) {
+        element.setAttribute(attr, attributes[attr]);
+      }
+    }
+  }
+  
+  return element;
+}
 
 elioUtils.urlify = function(text) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -1020,6 +1045,29 @@ elioUtils.updateBit = function(number, bitPosition, bitValue) {
     return (number & clearMask) | (bitValueNormalized << bitPosition);
 }
 
+//PID
+elioUtils.PID = function(desiredValue, currentValue,kp=0.01,ki=0.0001,kd=0.03) {
+
+    // Variables for PID controller
+    let prevError = 0;
+    let integral = 0;
+    
+    // Calculate error between desired value and current value
+    const error = desiredValue - currentValue;
+    
+    // Calculate PID output
+    const proportional = kp * error;
+    integral += ki * error;
+    const derivative = kd * (error - prevError);
+    const output = proportional + integral + derivative;
+    
+    // Update previous error for next iteration
+    prevError = error;
+    
+    // Return the new value for the next frame
+    return currentValue + output;
+}
+
 
 
 ////////////////// MATH ///////////////////////
@@ -1162,7 +1210,19 @@ function lerpTimeout(a, b, step, time, callback) {
 ////////////////// TIME ///////////////////////
 
 
+/////////////////// UTILS
 
+// elioUtils.parseParams(params,options){
+
+// }
+
+
+
+
+
+
+
+///////////////// UTILS
 ////////////////// VECTOR ///////////////////////
 
 
