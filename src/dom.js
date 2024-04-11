@@ -32,31 +32,54 @@ elioUtils.isTouchDevice = function() {
        (navigator.msMaxTouchPoints > 0));
 }
 
-elioUtils.createElement = function(type, content, parent, attributes) {
-  
+elioUtils.createElement = function(type, content, parent, attributes,events){
   const element = document.createElement(type);
   
-  if (content instanceof HTMLElement) {
-    element.appendChild(content);
-  } else if (typeof content === 'string') {
-    element.innerHTML = content;
-  }
+  const appendContent = (content) => {
+    if (Array.isArray(content)) {
+      content.forEach(item => appendContent(item));
+    } else if (content instanceof HTMLElement) {
+      element.appendChild(content);
+    } else if (typeof content === 'string') {
+      element.innerHTML += content;
+    } else if (typeof content === 'function') {
+      content(element);
+    }
+  };
+
+  appendContent(content);
   
   if (parent instanceof HTMLElement) {
-    console.log("APPEND")
     parent.appendChild(element);
   }
   
   if (attributes && typeof attributes === 'object') {
     for (let attr in attributes) {
       if (attributes.hasOwnProperty(attr)) {
-        element.setAttribute(attr, attributes[attr]);
+        if (attr === 'class') {
+          if (Array.isArray(attributes[attr])) {
+            attributes[attr].forEach(cls => element.classList.add(cls));
+          } else {
+            element.classList.add(attributes[attr]);
+          }
+        } else {
+          element.setAttribute(attr, attributes[attr]);
+        }
+      }
+    }
+  }
+
+  if (events && typeof events === 'object') {
+    for (let eventName in events) {
+      if (events.hasOwnProperty(eventName)) {
+        element.addEventListener(eventName, events[eventName]);
       }
     }
   }
   
   return element;
 }
+
 
 elioUtils.urlify = function(text) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
