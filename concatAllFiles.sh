@@ -1,1 +1,0 @@
-(echo src/_main.js; ls src/*.js | grep -v _main.js) | xargs cat > elioUtils.js
